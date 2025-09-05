@@ -1,0 +1,176 @@
+{
+  "log": {
+    "output": "/etc/sing-box/debug.log",
+    "disabled": false,
+    "timestamp": true,
+    "level": "warn"
+  },
+  "dns": {
+    "final": "dns-proxy",
+    "strategy": "ipv4_only",
+    "cache_capacity": 2048,
+    "disable_cache": true,
+    "disable_expire": false,
+    "independent_cache": false,
+    "reverse_mapping": false,
+    "rules": [
+      {
+        "rule_set": "geosite-private",
+        "action": "route",
+        "server": "dns-direct"
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "query_type": [
+              "HTTPS",
+              "SVCB"
+            ]
+          },
+          {
+            "ip_version": 6
+          }
+        ],
+        "action": "reject"
+      }
+    ],
+    "servers": [
+      {
+        "type": "tls",
+        "server": "8.8.8.8",
+        "tag": "dns-proxy",
+        "detour": "proxy"
+      },
+      {
+        "type": "local",
+        "detour": "direct",
+        "tag": "dns-direct"
+      }
+    ]
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "path": "cache.db"
+    }
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "address": [
+        "172.25.0.1/30"
+      ],
+      "auto_route": true,
+      "auto_redirect": false,
+      "strict_route": true,
+      "interface_name": "sing-box",
+      "mtu": 9000,
+      "stack": "gvisor"
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "proxy",
+      "type": "socks",
+      "server": "192.168.1.180",
+      "server_port": 2080,
+      "version": "5",
+      "udp_over_tcp": {
+        "enabled": true,
+        "version": 2
+      },
+      "udp_fragment": false,
+      "tcp_fast_open": true
+    },
+    {
+      "tag": "direct",
+      "type": "direct",
+      "udp_fragment": false,
+      "tcp_fast_open": true
+    }
+  ],
+  "route": {
+    "final": "proxy",
+    "auto_detect_interface": true,
+    "default_domain_resolver": "dns-direct",
+    "rule_set": [
+      {
+        "download_detour": "proxy",
+        "format": "binary",
+        "tag": "geoip-private",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-private.srs"
+      },
+      {
+        "download_detour": "proxy",
+        "format": "binary",
+        "tag": "geosite-private",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-private.srs"
+      },
+      {
+        "download_detour": "proxy",
+        "format": "binary",
+        "tag": "geoip-ir",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-ir.srs"
+      },
+      {
+        "download_detour": "proxy",
+        "format": "binary",
+        "tag": "geosite-ir",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-ir.srs"
+      }
+    ],
+    "rules": [
+      {
+        "action": "route",
+        "outbound": "direct",
+        "ip_cidr": "192.168.1.0/24"
+      },
+      {
+        "action": "sniff",
+        "timeout": "5ms"
+      },
+      {
+        "protocol": "dns",
+        "action": "hijack-dns"
+      },
+      {
+        "action": "resolve",
+        "ip_cidr": "10.10.34.32/29"
+      },
+      {
+        "action": "reject",
+        "ip_cidr": "10.10.34.32/29"
+      },
+      {
+        "ip_is_private": true,
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "action": "route",
+        "outbound": "direct",
+        "domain_suffix": [
+          "mobinhost.com",
+          "aminidc.com"
+        ]
+      },
+      {
+        "action": "route",
+        "outbound": "direct",
+        "rule_set": [
+          "geoip-private",
+          "geosite-private",
+          "geoip-ir",
+          "geosite-ir"
+        ]
+      }
+    ]
+  }
+}

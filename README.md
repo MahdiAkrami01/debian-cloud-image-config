@@ -41,8 +41,9 @@ wget -4 \
 ```shell
 virt-customize \
   -x \
-  -a debian-13-genericcloud-amd64.qcow2 \
-  --commands-from-file debian-configs.conf
+  --verbose \
+  --commands-from-file debian-configs.conf \
+  --add debian-13-genericcloud-amd64.qcow2
 ```
 
 ### 5. Build final image
@@ -51,6 +52,7 @@ qemu-img \
   convert \
   --progress \
   --compress \
+  --source-format qcow2 \
   --target-format qcow2 \
   --target-options preallocation=off \
   debian-13-genericcloud-amd64.qcow2 \

@@ -1,4 +1,4 @@
-# 🚀 Debian Customized Cloud Image for Proxmox
+# 🚀 Customized Debian Cloud Image for Proxmox
 
 - 🛑 This repository is currently in **development mode** and is **not for production use**.
 - 🚧 It is intended for **testing and development purposes only**. Use it at your own risk.

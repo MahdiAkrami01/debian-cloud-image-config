@@ -1,0 +1,6 @@
+Types: deb
+URIs: https://deb.sagernet.org/
+Suites: *
+Components: *
+Enabled: yes
+Signed-By: /etc/apt/keyrings/sagernet.asc

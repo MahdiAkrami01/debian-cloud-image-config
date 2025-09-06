@@ -50,11 +50,11 @@ virt-customize \
 ```shell
 qemu-img \
   convert \
-  --progress \
-  --compress \
-  --source-format qcow2 \
-  --target-format qcow2 \
-  --target-options preallocation=off \
+  -p \
+  -c \
+  -f qcow2 \
+  -O qcow2 \
+  -o preallocation=off \
   debian-13-genericcloud-amd64.qcow2 \
   debian-13-genericcloud-amd64-final.qcow2
 ```

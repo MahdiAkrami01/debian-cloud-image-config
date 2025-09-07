@@ -5,9 +5,24 @@
 
 ---
 
-## How to build
+## 🧪 Features
+- 🌐 **Timezone Configured:** Sets system timezone to Asia/Tehran
+- 🛠️ **APT Proxy Setup:** Configures apt proxy for faster package management
+- 📦 **Essential Packages Installed:** Includes `curl`, `wget`, `nano`, `htop`, `rsync`, `net-tools`, `dnsutils`, `tcpdump`, `mc`, `git`, `unzip`, `unar`, `bash-completion`, and more
+- 🤖 **QEMU Guest Agent:** Installed for Proxmox VM integration
+- ⚡ **Performance Tuning:** Installs and enables `tuned` with custom profiles
+- 💽 **ZRAM Swap:** Configures ZRAM swap for optimized memory usage
+- 📂 **lsd File Manager:** Installs and configures `lsd` for enhanced directory listing
+- 🔒 **sing-box Proxy Server:** Adds repository, installs, and configures `sing-box`
+- 🕸️ **Proxychains4:** Configured for flexible network routing
+- 📝 **Systemd Configuration:** Custom settings for journald, system, and user services
+- 🖥️ **Command Aliases:** Adds convenient shell aliases
+- ♻️ **System Update & Cleanup:** Updates all packages, removes unnecessary files, and cleans caches
+- 🔑 **Machine Initialization:** Empties machine-id and prepares SSH keys regeneration on first boot
 
-### 1. Download configs
+## Getting Started
+
+### 1. Clone the repository
 ```
 git clone https://github.com/MahdiAkrami01/debian-cloud-image-config.git && \
 cd debian-cloud-image-config
@@ -24,7 +39,7 @@ sudo apt update && \
 sudo apt install libguestfs-tools -y
 ```
 
-### 3. Download debian cloud image
+### 3. Download the Debian cloud image
 ```shell
 wget -4 \
   https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2
@@ -37,7 +52,7 @@ wget -4 \
   https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2
 ```
 
-### 4. Apply configs to image
+### 4. Apply Customizations to the Image
 ```shell
 virt-customize \
   -x \
@@ -47,7 +62,7 @@ virt-customize \
   --add debian-13-genericcloud-amd64.qcow2
 ```
 
-### 5. Build final image
+### 5. Build the Final `qcow2` Image
 ```shell
 qemu-img \
   convert \
@@ -60,8 +75,8 @@ qemu-img \
   debian-13-genericcloud-amd64-final.qcow2
 ```
 
-### 6. move image to PVE host
-> first install `rsync` using `sudo apt install rsync -y`.
+### 6. Move the image to the Proxmox host
+> First install `rsync` using `sudo apt install rsync -y`.
 ```shell
 rsync \
   --progress \
@@ -74,6 +89,12 @@ rsync \
 ```
 
 ## How to import `qcow2` image into Proxmox
+
+```shell
+qm importdisk [vm-id] debian-13-genericcloud-amd64-final.qcow2 [storage-name]
+```
+
+Example:
 
 ```shell
 qm importdisk 200 debian-13-genericcloud-amd64-final.qcow2 local-lvm

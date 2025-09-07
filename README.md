@@ -116,6 +116,7 @@ This repository provides a **simple and easy way to create a customized Debian c
 ### 📦 Image & VM Tools
 - **Packer** – Automate building VM images for multiple platforms.
 - **Vagrant** – Quickly spin up reproducible development VMs for testing your images.
+- **cloud-init** – Automate VM initialization tasks such as creating users, configuring networking, and running scripts on first boot.
 
 ### 🐳 Containers & Orchestration
 - **Docker / Podman** – Containerize applications for lightweight deployment.

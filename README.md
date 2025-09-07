@@ -20,7 +20,7 @@
 - ♻️ **System Update & Cleanup:** Updates all packages, removes unnecessary files, and cleans caches
 - 🔑 **Machine Initialization:** Empties machine-id and prepares SSH keys regeneration on first boot
 
-## Getting Started
+## 🛠️ Getting Started
 
 ### 1. Clone the repository
 ```
@@ -88,7 +88,7 @@ rsync \
   root@192.168.x.x:/path/to/destination/
 ```
 
-## How to import `qcow2` image into Proxmox
+## 📥 import `qcow2` image into Proxmox
 
 ```shell
 qm importdisk [vm-id] debian-13-genericcloud-amd64-final.qcow2 [storage-name]

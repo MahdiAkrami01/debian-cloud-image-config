@@ -52,7 +52,7 @@ wget -4 \
   https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2
 ```
 
-### 4. Apply Customizations to the Image
+### 4. Apply Customizations to the image
 ```shell
 virt-customize \
   -x \
@@ -62,7 +62,7 @@ virt-customize \
   --add debian-13-genericcloud-amd64.qcow2
 ```
 
-### 5. Build the Final `qcow2` Image
+### 5. Build the final `qcow2` image
 ```shell
 qemu-img \
   convert \

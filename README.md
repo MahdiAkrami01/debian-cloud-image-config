@@ -42,6 +42,7 @@ wget -4 \
 virt-customize \
   -x \
   --verbose \
+  --no-selinux-relabel \
   --commands-from-file debian-configs.conf \
   --add debian-13-genericcloud-amd64.qcow2
 ```
